@@ -1,0 +1,191 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyServiceLibrary</name>
+    </assembly>
+    <members>
+        <member name="T:MyServiceLibrary.Abstract.IIdGenerator">
+            <summary>
+            Defines a method to generate an id 
+            </summary>
+        </member>
+        <member name="M:MyServiceLibrary.Abstract.IIdGenerator.GenerateId">
+            <summary>
+            Generate some id
+            </summary>
+            <returns>Returns an id</returns>
+        </member>
+        <member name="M:MyServiceLibrary.Abstract.IIdGenerator.GenerateId(MyServiceLibrary.Models.User)">
+            <summary>
+            Generates id on user's fields
+            </summary>
+            <param name="user">An instance of user</param>
+            <returns>Returns an id</returns>
+        </member>
+        <member name="T:MyServiceLibrary.Abstract.IUserStorage">
+            <summary>
+            Provides methods for storage management
+            </summary>
+        </member>
+        <member name="M:MyServiceLibrary.Abstract.IUserStorage.Save(System.Collections.Generic.IEnumerable{MyServiceLibrary.Models.User})">
+            <summary>
+            Saves users to storage
+            </summary>
+        </member>
+        <member name="M:MyServiceLibrary.Abstract.IUserStorage.Load">
+            <summary>
+            Loads users from storage
+            </summary>
+        </member>
+        <member name="T:MyServiceLibrary.Concrete.DefaultIdGenerator">
+            <summary>
+            Class implements an IIdGenerator interface
+            </summary>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.DefaultIdGenerator.#ctor(System.Int32)">
+            <summary>
+            Initializes the start value from which generating will be started
+            </summary>
+            <param name="start">Start value</param>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.DefaultIdGenerator.GenerateId">
+            <summary>
+            Generates an id
+            </summary>
+            <remarks>Increments previous id by 1</remarks>
+            <returns>Returns an actual id</returns>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.DefaultIdGenerator.GenerateId(MyServiceLibrary.Models.User)">
+            <summary>
+            Generates id on user's fields
+            </summary>
+            <param name="user">An instance of user</param>
+            <returns>Returns an id</returns>
+        </member>
+        <member name="P:MyServiceLibrary.Concrete.ObjectPool`2.Count">
+            <summary>Total instances.</summary>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.ObjectPool`2.#ctor(MyServiceLibrary.Abstract.IPoolObjectCreator{`0,`1})">
+            <summary>
+            Initializes a new instance of the <see cref="T:ObjectPool"/> class.
+            </summary>
+            <param name="creator">Interface of the object creator. It can't be null.</param>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.ObjectPool`2.GetObject">
+            <summary>Gets an object from the pool.</summary>
+            <returns>An object.</returns>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.ObjectPool`2.ReturnObject(`0@)">
+            <summary>Returns the specified object to the pool.</summary>
+            <param name="obj">The object to return.</param>
+        </member>
+        <member name="T:MyServiceLibrary.Concrete.UserService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:MyServiceLibrary.Concrete.UserStorageXml">
+            <summary>
+            Class to work with xml storage
+            </summary>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserStorageXml.#ctor">
+            <summary>
+            Creates a new xml storage
+            </summary>>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserStorageXml.Save(System.Collections.Generic.IEnumerable{MyServiceLibrary.Models.User})">
+            <summary>
+            Saves the user's collection to the xml storage
+            </summary>
+            <remarks>If storage with the specified name does't exist, it will be created</remarks>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserStorageXml.Load">
+            <summary>
+            Loads the user's collecction from the xml storage
+            </summary>
+            <exception cref="T:MyServiceLibrary.Exceptions.NameNotFoundException">Wrong path to the storage</exception>
+        </member>
+        <member name="T:MyServiceLibrary.Concrete.UserServiceMaster">
+            <summary>
+            Class represents a service of users
+            </summary>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserServiceMaster.Add(MyServiceLibrary.Models.User)">
+            <summary>
+            Adds a user to the service
+            </summary>
+            <remarks>Function uses generating function which generates an id for a new user</remarks>
+            <param name="user">Instance of user</param>
+            <exception cref="T:System.ArgumentNullException">Throws when user is null</exception>
+            <exception cref="T:MyServiceLibrary.Exceptions.UserIsNotValidException">Throws when first name and last name are not defined</exception>
+            <exception cref="T:MyServiceLibrary.Exceptions.UserAlreadyExistsException">Throws when a user with the same id already exists in the service</exception>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserServiceMaster.Remove(System.Func{MyServiceLibrary.Models.User,System.Boolean})">
+            <summary>
+            Removes a user from the service on the specified condition
+            </summary>
+            <param name="predicate">Condition to delete a user</param>
+            <exception cref="T:System.ArgumentNullException">Throws when user is null</exception>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserServiceMaster.Find(System.Func{MyServiceLibrary.Models.User,System.Boolean})">
+            <summary>
+            Returns users that satisfy the specified condition
+            </summary>
+            <param name="predicate">Condition to find a user</param>
+            <returns>Returns an enumeration of users</returns>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserServiceMaster.Save(MyServiceLibrary.Abstract.IUserStorage)">
+            <summary>
+            Saves collection to the storage
+            </summary>
+            <param name="storage">Class that implements interface IUserStorage</param>
+        </member>
+        <member name="M:MyServiceLibrary.Concrete.UserServiceMaster.Load(MyServiceLibrary.Abstract.IUserStorage)">
+            <summary>
+            Loads collection from the storage
+            </summary>
+            <param name="storage">Class that implements interface IUserStorage</param>
+        </member>
+        <member name="T:MyServiceLibrary.Exceptions.NameNotFoundException">
+            <summary>
+            Throws when name of the storage is not found
+            </summary>
+        </member>
+        <member name="T:MyServiceLibrary.Exceptions.UserAlreadyExistsException">
+            <summary>
+            Throws when user already exists
+            </summary>
+        </member>
+        <member name="T:MyServiceLibrary.Exceptions.UserIsNotValidException">
+            <summary>
+            Throws when user is not valid
+            </summary>
+        </member>
+        <member name="T:MyServiceLibrary.Models.User">
+            <summary>
+            Class represents a person
+            </summary>
+        </member>
+        <member name="P:MyServiceLibrary.Models.User.Id">
+            <summary>
+            Id of the user
+            </summary>
+        </member>
+        <member name="P:MyServiceLibrary.Models.User.FirstName">
+            <summary>
+            First name of the user
+            </summary>
+        </member>
+        <member name="P:MyServiceLibrary.Models.User.LastName">
+            <summary>
+            Last name of the user
+            </summary>
+        </member>
+        <member name="P:MyServiceLibrary.Models.User.DateOfBirth">
+            <summary>
+            Date of birth of the user
+            </summary>
+        </member>
+    </members>
+</doc>
