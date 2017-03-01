@@ -18,7 +18,13 @@ namespace MyServiceLibrary.Concrete
         private static readonly Lazy<UserServiceMaster> instance = 
             new Lazy<UserServiceMaster>(() => new UserServiceMaster());
 
-        public static UserServiceMaster Instance => instance.Value;
+        public static UserServiceMaster Instance
+        {
+            get
+            {
+                return instance.Value;
+            }
+        }
 
         public IIdGenerator IdGenerator
         {
