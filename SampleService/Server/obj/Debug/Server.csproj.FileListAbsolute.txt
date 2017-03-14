@@ -1,0 +1,13 @@
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\Server.exe.config
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\NLog.config
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\Server.exe
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\Server.pdb
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\CustomServices.dll
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\ServiceManager.dll
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\NLog.dll
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\CustomServices.pdb
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\ServiceManager.pdb
+C:\Users\Sacris\Desktop\SampleService — копия\Server\bin\Debug\NLog.xml
+C:\Users\Sacris\Desktop\SampleService — копия\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache
+C:\Users\Sacris\Desktop\SampleService — копия\Server\obj\Debug\Server.exe
+C:\Users\Sacris\Desktop\SampleService — копия\Server\obj\Debug\Server.pdb

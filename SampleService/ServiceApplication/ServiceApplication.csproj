@@ -34,6 +34,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,12 +48,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MyServiceLibrary\MyServiceLibrary.csproj">
-      <Project>{83615058-2919-4ca9-84c2-5368cef9f281}</Project>
-      <Name>MyServiceLibrary</Name>
+    <ProjectReference Include="..\CustomServices\CustomServices.csproj">
+      <Project>{D6639DC0-6A43-431E-BD94-5FAEDCD18B6A}</Project>
+      <Name>CustomServices</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceManager\ServiceManager.csproj">
+      <Project>{551e11e4-b484-4094-953a-db25d2cb134f}</Project>
+      <Name>ServiceManager</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

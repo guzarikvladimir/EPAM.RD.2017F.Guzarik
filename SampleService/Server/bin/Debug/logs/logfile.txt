@@ -1,0 +1,15 @@
+2017-03-11 16:46:20.3180|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-11 16:47:47.2588|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-11 16:48:29.2082|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-11 20:11:46.4733|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-11 20:12:49.3541|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-11 20:12:53.8238|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been removed.
+2017-03-11 20:13:36.6951|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-11 20:13:37.2085|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been removed.
+2017-03-11 20:21:21.3922|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-14 22:43:54.9103|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-14 22:43:56.0984|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been removed.
+2017-03-14 22:44:16.4639|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-14 22:44:23.6537|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been removed.
+2017-03-14 22:50:14.6854|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-14 22:50:19.3147|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been removed.

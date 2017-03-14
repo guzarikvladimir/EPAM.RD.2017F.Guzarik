@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using MyServiceLibrary.Concrete;
-using MyServiceLibrary.Models;
+using CustomServices.Concrete;
+using ServiceManager.Concrete;
 
 namespace ServiceApplication
 {
@@ -13,14 +13,14 @@ namespace ServiceApplication
     {
         public static void Main(string[] args)
         {
-            var service = UserServiceMaster.Instance;
+            var service = new UserServiceMaster();
 
             // 1. Add a new user to the storage.
             service.Add(new User()
             {
                 FirstName = "Vladimir",
                 LastName = "Guzarik",
-                DateOfBirth = DateTime.Parse("14.09.1996")
+                Age = 20
             });
             service.Add(new User()
             {
@@ -84,33 +84,40 @@ namespace ServiceApplication
                 Console.WriteLine(user.ToString());
             }
 
-            Console.WriteLine();
-            Console.WriteLine("---Object Pool---");
-            Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("---Object Pool---");
+            //Console.WriteLine();
 
-            var pool = new ObjectPool<UserService, UserServiceMaster>(new UserServiceCreator(), service);
-            var service1 = pool.GetObject();
-            var users1 = service1.Find(user => user.FirstName == "Vladimir").ToList();
-            foreach (var user in users1)
-            {
-                Console.WriteLine(user.ToString());
-            }
+            var service1 = new UserServiceCreator().Create("NewDomain");
+            //var users1 = service1.Find(user => user.FirstName == "Vladimir").ToList();
+            //foreach (var user in users1)
+            //{
+            //    Console.WriteLine(user.ToString());
+            //}
 
-            service.Add(new User()
-            {
-                FirstName = "FirstName",
-                LastName = "LastName"
-            });
+            //service.Add(new User()
+            //{
+            //    FirstName = "FirstName",
+            //    LastName = "LastName"
+            //});
 
-            Console.WriteLine();
-            Console.WriteLine("---After adding---");
-            Console.WriteLine();
+            //Console.WriteLine();
+            //Console.WriteLine("---After adding---");
+            //Console.WriteLine();
 
-            var users2 = service1.Find(user => user.FirstName.Any()).ToList();
-            foreach (var user in users2)
-            {
-                Console.WriteLine(user.ToString());
-            }
+            //var users2 = service1.Find(user => user.FirstName.Any()).ToList();
+            //foreach (var user in users2)
+            //{
+            //    Console.WriteLine(user.ToString());
+            //}
+
+            var master = new MasterServiceCreator().Create("MyDomain");
+
+            //string[] ips = ConfigurationManager.AppSettings["SlaveIp"].Split(',');
+            //foreach (var ip in ips)
+            //{
+            //    Console.WriteLine(ip);
+            //}
 
             Console.ReadKey();
         }
