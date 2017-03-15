@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Runtime.Serialization.Formatters.Binary;
 using CustomServices.Concrete;
-using ServiceManager.Concrete;
 
 namespace Client
 {
@@ -14,7 +12,29 @@ namespace Client
         static void Main(string[] args)
         {
             //var service = new UserServiceCreator().Create("NewDomain");
-            var service = new UserService();
+
+            UserService service = null;
+            TcpClient client = null;
+            try
+            {
+                string[] remoteEndPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
+                client = new TcpClient(remoteEndPoint[0], int.Parse(remoteEndPoint[1]));
+
+                var formatter = new BinaryFormatter();
+                NetworkStream stream = client.GetStream();
+
+                service = (UserService) formatter.Deserialize(stream);
+            }
+            catch (Exception e)
+            {
+                // ignored
+            }
+            finally
+            {
+                client?.Close();
+            }
+
+            Console.WriteLine("User service content:");
 
             var content = service.Find(x => x.FirstName.Any()).ToList();
 
@@ -23,6 +43,7 @@ namespace Client
                 Console.WriteLine(user.ToString());
             }
 
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
 
             content = service.Find(x => x.FirstName.Any()).ToList();
@@ -33,6 +54,7 @@ namespace Client
                 Console.WriteLine(user.ToString());
             }
 
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
 
             content = service.Find(x => x.FirstName.Any()).ToList();
@@ -43,6 +65,7 @@ namespace Client
                 Console.WriteLine(user.ToString());
             }
 
+            Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
     }

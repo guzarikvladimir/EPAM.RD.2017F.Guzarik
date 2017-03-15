@@ -56,6 +56,8 @@
     <Compile Include="Abstract\IService.cs" />
     <Compile Include="Abstract\IUserStorage.cs" />
     <Compile Include="Concrete\DefaultGenerator.cs" />
+    <Compile Include="Concrete\Message.cs" />
+    <Compile Include="Concrete\ObjectPool.cs" />
     <Compile Include="Concrete\User.cs" />
     <Compile Include="Concrete\MasterNodeChanges.cs" />
     <Compile Include="Concrete\UserService.cs" />

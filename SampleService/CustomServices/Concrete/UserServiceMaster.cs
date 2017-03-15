@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using CustomServices.Abstract;
@@ -18,11 +19,12 @@ namespace CustomServices.Concrete
     [Serializable]
     public sealed class UserServiceMaster : MarshalByRefObject, IService<User>
     {
-        private readonly IGenerator idGenerator;
         private List<User> collection;
-
-        private readonly List<string> activeServices;
+        private readonly IGenerator idGenerator;
+        private readonly ObjectPool<UserService> pool;
         private readonly string[] registeredServices;
+        //private readonly List<string> availableServices;
+        private TcpListener listener;
 
         private readonly Action<string> logAction = delegate { };
 
@@ -39,8 +41,8 @@ namespace CustomServices.Concrete
 
             this.idGenerator = generator;
             this.collection = new List<User>();
-            this.activeServices = new List<string>();
             this.registeredServices = ConfigurationManager.AppSettings["SlaveEndPoints"].Split(',');
+            //this.availableServices = this.registeredServices.ToList();
 
             bool logging = string.Equals(ConfigurationManager.AppSettings["Logging"], "true", StringComparison.OrdinalIgnoreCase);
             if (logging)
@@ -52,7 +54,15 @@ namespace CustomServices.Concrete
                 };
             }
 
-            var thread = new Thread(Listen) {IsBackground = true};
+            pool = new ObjectPool<UserService>();
+
+            CreateSlaves();
+
+            string[] localEndPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
+            listener = new TcpListener(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
+            listener.Start();
+
+            Thread thread = new Thread(Listen) { IsBackground = true };
             thread.Start();
         }
 
@@ -165,6 +175,12 @@ namespace CustomServices.Concrete
             }
 
             collection = storage.Load().ToList();
+            
+            Send(new MasterNodeChanges()
+            {
+                Users = collection.ToList(),
+                State = State.Added
+            });
         }
 
         public IEnumerable<User> GetAllUsers()
@@ -176,9 +192,9 @@ namespace CustomServices.Concrete
         {
             try
             {
-                foreach (var activeService in activeServices)
+                foreach (var service in registeredServices)
                 {
-                    string[] endPoint = activeService.Split(':');
+                    string[] endPoint = service.Split(':');
                     TcpClient client = new TcpClient(endPoint[0], int.Parse(endPoint[1]));
                     BinaryFormatter formatter = new BinaryFormatter();
                     NetworkStream stream = client.GetStream();
@@ -193,48 +209,54 @@ namespace CustomServices.Concrete
             }
         }
 
+        private void CreateSlaves()
+        {
+            foreach (var service in registeredServices)
+            {
+                string[] endPoint = service.Split(':');
+                pool.PutObject(new UserService(collection.ToList(), endPoint[0], endPoint[1]));
+            }
+        }
+
         private void Listen()
         {
-            TcpListener server = null;
             try
             {
-                string[] endPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
-                server = new TcpListener(IPAddress.Parse(endPoint[0]), int.Parse(endPoint[1]));
-                server.Start();
-
                 BinaryFormatter formatter = new BinaryFormatter();
+                Random r = new Random();
 
                 while (true)
                 {
-                    TcpClient client = server.AcceptTcpClient();
+                    TcpClient client = listener.AcceptTcpClient();
 
-                    string remoteEndPoint = client.Client.RemoteEndPoint.ToString();
+                    NetworkStream stream = client.GetStream();
 
-                    if (registeredServices.Contains(remoteEndPoint))
+                    //string[] serviceEndPoint = availableServices[r.Next(0, availableServices.Count - 1)].Split(':');
+                    //var message = new Message()
+                    //{
+                    //    Hostname = serviceEndPoint[0],
+                    //    Port = int.Parse(serviceEndPoint[1])
+                    //};
+
+                    try
                     {
-                        activeServices.Add(remoteEndPoint);
-
-                        NetworkStream stream = client.GetStream();
-
-                        var obj = new MasterNodeChanges() {Users = collection.ToList(), State = State.Added};
-
-                        formatter.Serialize(stream, obj);
+                        formatter.Serialize(stream, pool.GetObject());
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
                     }
 
                     client.Close();
                 }
             }
-            catch (SocketException e)
-            {
-                // ignored
-            }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }
             finally
             {
-                server?.Stop();
+                listener?.Stop();
             }
         }
     }

@@ -1,30 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
 using System.Threading;
 using CustomServices.Abstract;
 using CustomServices.Exceptions;
-using System.Configuration;
 
 namespace CustomServices.Concrete
 {
     [Serializable]
     public sealed class UserService : MarshalByRefObject, IService<User>
     {
-        private List<User> collection;
-        private TcpClient client;
+        private readonly List<User> collection;
+        private readonly TcpListener listener;
 
-        public UserService()
+        public UserService(List<User> collection, string hostname, string port)
         {
-            collection = new List<User>();
+            this.collection = collection;
 
-            Connect();
-            var thread = new Thread(Start) { IsBackground = true };
+            listener = new TcpListener(new IPEndPoint(IPAddress.Parse(hostname), int.Parse(port)));
+            listener.Start();
+
+            var thread = new Thread(Listen) { IsBackground = true };
             thread.Start();
         }
 
@@ -48,64 +47,48 @@ namespace CustomServices.Concrete
             return this.collection.Where(predicate);
         }
 
-        private void Connect()
-        {
-            try
-            {
-                string[] masterEndPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
-                string[] localEndPoint = ConfigurationManager.AppSettings["LocalEndPoint"].Split(':');
-                client = new TcpClient(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
-                client.Connect(masterEndPoint[0], int.Parse(masterEndPoint[1]));
-                BinaryFormatter formatter = new BinaryFormatter();
-                NetworkStream stream = client.GetStream();
-                var col = (MasterNodeChanges) formatter.Deserialize(stream);
-                this.collection = col.Users.ToList();
-                stream.Close();
-            }
-            catch (Exception)
-            {
-                client?.Close();
-            }
-        }
-
-        private void Start()
+        private void Listen()
         {
             try
             {
                 BinaryFormatter formatter = new BinaryFormatter();
 
-                NetworkStream stream = client.GetStream();
-                
                 while (true)
                 {
-                    var obj = (MasterNodeChanges) formatter.Deserialize(stream);
+                    TcpClient client = listener.AcceptTcpClient();
 
-                    switch (obj.State)
+                    NetworkStream stream = client.GetStream();
+
+                    var info = (MasterNodeChanges) formatter.Deserialize(stream);
+
+                    switch (info.State)
                     {
                         case State.Added:
-                            foreach (var u in obj.Users)
+                            foreach (User user in info.Users)
                             {
-                                collection.Add(u);
+                                collection.Add(user);
                             }
                             break;
                         case State.Removed:
-                            foreach (var u in obj.Users)
+                            foreach (User user in info.Users)
                             {
-                                collection.Remove(u);
+                                collection.Remove(user);
                             }
                             break;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }
+
+                    client.Close();
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // ignored
             }
             finally
             {
-                client.Close();
+                listener.Stop();
             }
         }
     }

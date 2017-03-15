@@ -22,6 +22,7 @@ namespace Server
                 Console.WriteLine(user.ToString());
             }
 
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
 
             service.Add(new User()
@@ -36,6 +37,7 @@ namespace Server
                 Console.WriteLine(user.ToString());
             }
 
+            Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
 
             service.Remove(u => u.FirstName == "New User");
@@ -46,6 +48,7 @@ namespace Server
                 Console.WriteLine(user.ToString());
             }
 
+            Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
         }
     }
