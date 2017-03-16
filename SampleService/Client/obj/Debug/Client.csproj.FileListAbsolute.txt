@@ -3,10 +3,8 @@ C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\NLog.confi
 C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\Client.exe
 C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\Client.pdb
 C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\CustomServices.dll
-C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\ServiceManager.dll
 C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\NLog.dll
 C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\CustomServices.pdb
-C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\ServiceManager.pdb
 C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\NLog.xml
 C:\Users\Sacris\Desktop\SampleService — копия\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
 C:\Users\Sacris\Desktop\SampleService — копия\Client\obj\Debug\Client.exe

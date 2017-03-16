@@ -56,10 +56,6 @@
       <Project>{D6639DC0-6A43-431E-BD94-5FAEDCD18B6A}</Project>
       <Name>CustomServices</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceManager\ServiceManager.csproj">
-      <Project>{551E11E4-B484-4094-953A-DB25D2CB134F}</Project>
-      <Name>ServiceManager</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

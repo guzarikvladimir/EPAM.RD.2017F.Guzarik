@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CustomServices.Concrete;
-using ServiceManager.Concrete;
 
 namespace Server
 {
@@ -12,9 +7,8 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            //var service = new MasterServiceCreator().Create("SomeDomain");
             var service = new UserServiceMaster();
-            service.Load(new UserStorageXml());
+            //service.Load(new UserStorageXml());
 
             Console.WriteLine("Master service content:");
             foreach (var user in service.GetAllUsers())

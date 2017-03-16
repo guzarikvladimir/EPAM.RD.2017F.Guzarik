@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Configuration;
+using System.IO;
 using System.Linq;
-using System.Net.Sockets;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Linq.Expressions;
+using System.Reflection;
 using CustomServices.Concrete;
 
 namespace Client
@@ -11,28 +11,21 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            //var service = new UserServiceCreator().Create("NewDomain");
+            //AppDomainSetup ads = new AppDomainSetup
+            //{
+            //    ApplicationBase = AppDomain.CurrentDomain.BaseDirectory,
+            //    PrivateBinPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AD #2"),
+            //    ConfigurationFile = AppDomain.CurrentDomain.SetupInformation.ConfigurationFile
+            //};
+            //var ad2 = AppDomain.CreateDomain("AD #2");
 
-            UserService service = null;
-            TcpClient client = null;
-            try
-            {
-                string[] remoteEndPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
-                client = new TcpClient(remoteEndPoint[0], int.Parse(remoteEndPoint[1]));
+            //var assembly = Assembly.Load("CustomServices");
 
-                var formatter = new BinaryFormatter();
-                NetworkStream stream = client.GetStream();
+            //UserService service =
+            //    (UserService)
+            //        ad2.CreateInstanceAndUnwrap(assembly.FullName, typeof(UserService).FullName);
 
-                service = (UserService) formatter.Deserialize(stream);
-            }
-            catch (Exception e)
-            {
-                // ignored
-            }
-            finally
-            {
-                client?.Close();
-            }
+            UserService service = new UserService();
 
             Console.WriteLine("User service content:");
 
@@ -66,6 +59,7 @@ namespace Client
             }
 
             Console.WriteLine("Press any key to exit...");
+            //AppDomain.Unload(ad2);
             Console.ReadKey();
         }
     }

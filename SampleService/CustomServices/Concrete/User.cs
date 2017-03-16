@@ -7,7 +7,7 @@ namespace CustomServices.Concrete
     /// Class represents a person
     /// </summary>
     [Serializable]
-    public class User : MarshalByRefObject
+    public class User
     {
         /// <summary>
         /// Id of the user
@@ -28,6 +28,26 @@ namespace CustomServices.Concrete
         /// Age of the user
         /// </summary>
         public int Age { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var user = obj as User;
+
+            if (ReferenceEquals(user, null))
+            {
+                throw new ArgumentException(nameof(user));
+            }
+
+            return Equals(user);
+        }
+
+        public bool Equals(User user)
+        {
+            return this.Id == user.Id &&
+                   string.Equals(this.FirstName, user.FirstName, StringComparison.InvariantCultureIgnoreCase) &&
+                   string.Equals(this.LastName, user.LastName, StringComparison.InvariantCultureIgnoreCase) &&
+                   this.Age == user.Age;
+        }
 
         public override string ToString()
         {

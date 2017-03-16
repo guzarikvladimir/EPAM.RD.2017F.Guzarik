@@ -12,7 +12,6 @@ namespace CustomServices.Concrete
     /// <summary>
     /// Class to work with xml storage
     /// </summary>
-    [Serializable]
     public class UserStorageXml : MarshalByRefObject, IUserStorage
     {
         private readonly string path;
