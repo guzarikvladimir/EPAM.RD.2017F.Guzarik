@@ -29,18 +29,29 @@ namespace CustomServices.Concrete
         /// </summary>
         public int Age { get; set; }
 
+        /// <summary>
+        /// Compares users
+        /// </summary>
+        /// <param name="obj">User to compare</param>
+        /// <returns>True if all fields are the same else false</returns>
+        /// <exception cref="ArgumentNullException">Throws when obj is null or is not a user</exception>
         public override bool Equals(object obj)
         {
             var user = obj as User;
 
             if (ReferenceEquals(user, null))
             {
-                throw new ArgumentException(nameof(user));
+                throw new ArgumentNullException(nameof(obj));
             }
 
             return this.Equals(user);
         }
 
+        /// <summary>
+        /// Compares users
+        /// </summary>
+        /// <param name="user">User to compare</param>
+        /// <returns>True if all fields are the same else false</returns>
         public bool Equals(User user)
         {
             return this.Id == user.Id &&
@@ -49,6 +60,9 @@ namespace CustomServices.Concrete
                    this.Age == user.Age;
         }
 
+        /// <summary>
+        /// Returns a string representation of user
+        /// </summary>
         public override string ToString()
         {
             return $"{this.Id}" + Environment.NewLine +
@@ -57,6 +71,9 @@ namespace CustomServices.Concrete
                    $"{this.Age.ToString(CultureInfo.CurrentCulture)}";
         }
 
+        /// <summary>
+        /// Returns hash of the object on its string representation
+        /// </summary>
         public override int GetHashCode()
         {
             return this.ToString().GetHashCode();

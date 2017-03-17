@@ -13,32 +13,33 @@ using NLog;
 namespace CustomServices.Concrete
 {
     /// <summary>
-    /// Class represents a service of users
+    /// Class represents a master service that allows to add, remove and find users
     /// </summary>
     public sealed class UserServiceMaster : MarshalByRefObject, IService<User>
     {
-        private readonly IGenerator idGenerator;
         private readonly string[] registeredServices;
         private readonly List<TcpClient> activeServices;
         private readonly List<TcpClient> removedServices;
         private readonly TcpListener listener;
         private readonly BinaryFormatter formatter;
         private List<User> collection;
-
+        private IGenerator idGenerator;
         private Action<string> logAction = delegate { };
 
+        /// <summary>
+        /// Creates an instance of master service with default generator and begins to accept slaves
+        /// </summary>
         public UserServiceMaster() : this(new DefaultGenerator(1))
         {
         }
 
+        /// <summary>
+        /// Creates an instance of master service with the specified generator and begins to accept slaves
+        /// </summary>
+        /// <param name="generator">Class that generates id for user</param>
         public UserServiceMaster(IGenerator generator)
         {
-            if (object.ReferenceEquals(generator, null))
-            {
-                throw new ArgumentNullException(nameof(generator));
-            }
-
-            this.idGenerator = generator;
+            this.IdGenerator = generator;
             this.collection = new List<User>();
             this.registeredServices = ConfigurationManager.AppSettings["SlaveEndPoints"].Split(',');
             this.formatter = new BinaryFormatter();
@@ -54,6 +55,28 @@ namespace CustomServices.Concrete
             new Thread(this.Listen) { IsBackground = true }.Start();
 
             var t = new Timer(this.CheckConnection, null, 600000, 600000);
+        }
+
+        /// <summary>
+        /// Gets or sets generator
+        /// </summary>
+        /// <exception cref="ArgumentNullException">Throws when generator is null</exception>
+        public IGenerator IdGenerator
+        {
+            get
+            {
+                return this.idGenerator;
+            }
+
+            set
+            {
+                if (object.ReferenceEquals(value, null))
+                {
+                    throw new ArgumentNullException(nameof(value));
+                }
+
+                this.idGenerator = value;
+            }
         }
 
         /// <summary>
@@ -76,9 +99,9 @@ namespace CustomServices.Concrete
                 throw new UserIsNotValidException(nameof(user));
             }
 
-            user.Id = this.idGenerator.GenerateId();
+            user.Id = this.IdGenerator.GenerateId();
 
-            if (this.collection.Any(u => u.Id == user.Id))
+            if (this.Exists(user))
             {
                 throw new UserAlreadyExistsException(nameof(user));
             }
@@ -126,7 +149,7 @@ namespace CustomServices.Concrete
         /// </summary>
         /// <param name="predicate">Condition to find a user</param>
         /// <exception cref="ArgumentNullException">Throws when predicate is null</exception>
-        /// <returns>Returns an enumeration of users</returns>
+        /// <returns>Returns a list of users</returns>
         public List<User> Find(Func<User, bool> predicate)
         {
             if (object.ReferenceEquals(predicate, null))
@@ -140,7 +163,7 @@ namespace CustomServices.Concrete
         /// <summary>
         /// Saves collection to the storage
         /// </summary>
-        /// <param name="storage">Class that implements interface IUserStorage</param>
+        /// <param name="storage">Class that implements interface IUserStorage and its save/load functions</param>
         /// <exception cref="ArgumentNullException">Throws when storage is null</exception>
         public void Save(IUserStorage storage)
         {
@@ -155,7 +178,7 @@ namespace CustomServices.Concrete
         /// <summary>
         /// Loads collection from the storage
         /// </summary>
-        /// <param name="storage">Class that implements interface IUserStorage</param>
+        /// <param name="storage">Class that implements interface IUserStorage and its save/load functions</param>
         /// <exception cref="ArgumentNullException">Throws when storage is null</exception>
         public void Load(IUserStorage storage)
         {
@@ -173,6 +196,9 @@ namespace CustomServices.Concrete
             });
         }
 
+        /// <summary>
+        /// Returns collection of users
+        /// </summary>
         public IEnumerable<User> GetAllUsers()
         {
             return this.collection.ToArray();
@@ -201,6 +227,16 @@ namespace CustomServices.Concrete
             }
 
             return true;
+        }
+
+        private bool Exists(User user)
+        {
+            if (this.collection.Any(u => u.Id == user.Id))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         private void Send(MasterNodeChanges user)

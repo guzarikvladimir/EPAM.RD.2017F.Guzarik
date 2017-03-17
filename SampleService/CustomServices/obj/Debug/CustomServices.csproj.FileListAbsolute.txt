@@ -22,3 +22,4 @@ C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\D
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.csprojResolveAssemblyReference.cache
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.dll
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\Debug\CustomServices.XML

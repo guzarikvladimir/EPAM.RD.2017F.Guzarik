@@ -7,3 +7,5 @@ C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\D
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\NLog.xml
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\obj\Debug\ServiceFactory.dll
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\obj\Debug\ServiceFactory.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\CustomServices.xml
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\obj\Debug\ServiceFactory.csprojResolveAssemblyReference.cache

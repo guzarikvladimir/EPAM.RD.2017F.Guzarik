@@ -1,0 +1,257 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>CustomServices</name>
+    </assembly>
+    <members>
+        <member name="T:CustomServices.Abstract.IGenerator">
+            <summary>
+            Defines generating methods
+            </summary>
+        </member>
+        <member name="M:CustomServices.Abstract.IGenerator.GenerateId">
+            <summary>
+            Generate some id
+            </summary>
+            <returns>Returns an id</returns>
+        </member>
+        <member name="M:CustomServices.Abstract.IGenerator.GenerateId(CustomServices.Concrete.User)">
+            <summary>
+            Generates id on user's fields
+            </summary>
+            <param name="user">An instance of user</param>
+            <returns>Returns an id</returns>
+        </member>
+        <member name="T:CustomServices.Abstract.IService`1">
+            <summary>
+            Declares methods for service
+            </summary>
+            <typeparam name="T">Defines objects that will be stored in service</typeparam>
+        </member>
+        <member name="M:CustomServices.Abstract.IService`1.Add(`0)">
+            <summary>
+            Adds an object to service
+            </summary>
+            <param name="item"></param>
+        </member>
+        <member name="M:CustomServices.Abstract.IService`1.Remove(System.Func{`0,System.Boolean})">
+            <summary>
+            Removes an object from service
+            </summary>
+            <param name="predicate">Selection conditions</param>
+        </member>
+        <member name="M:CustomServices.Abstract.IService`1.Find(System.Func{`0,System.Boolean})">
+            <summary>
+            Finds an object in service
+            </summary>
+            <param name="predicate">Selection conditions</param>
+            <returns>Returns a list of objects that spetishy the specified condition</returns>
+        </member>
+        <member name="T:CustomServices.Abstract.IUserStorage">
+            <summary>
+            Provides methods for storage management
+            </summary>
+        </member>
+        <member name="M:CustomServices.Abstract.IUserStorage.Save(System.Collections.Generic.IEnumerable{CustomServices.Concrete.User})">
+            <summary>
+            Saves users to storage
+            </summary>
+        </member>
+        <member name="M:CustomServices.Abstract.IUserStorage.Load">
+            <summary>
+            Loads users from storage
+            </summary>
+        </member>
+        <member name="T:CustomServices.Concrete.DefaultGenerator">
+            <summary>
+            Class implements an IGenerator interface
+            </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.DefaultGenerator.#ctor(System.Int32)">
+            <summary>
+            Initializes the start value from which generating will be started
+            </summary>
+            <param name="start">Start value</param>
+        </member>
+        <member name="M:CustomServices.Concrete.DefaultGenerator.GenerateId">
+            <summary>
+            Generates an id
+            </summary>
+            <remarks>Increments previous id by 1</remarks>
+            <returns>Returns an actual id</returns>
+        </member>
+        <member name="M:CustomServices.Concrete.DefaultGenerator.GenerateId(CustomServices.Concrete.User)">
+            <summary>
+            Generates id on user's fields
+            </summary>
+            <param name="user">An instance of user</param>
+            <returns>Returns an id</returns>
+        </member>
+        <member name="T:CustomServices.Concrete.User">
+            <summary>
+            Class represents a person
+            </summary>
+        </member>
+        <member name="P:CustomServices.Concrete.User.Id">
+            <summary>
+            Id of the user
+            </summary>
+        </member>
+        <member name="P:CustomServices.Concrete.User.FirstName">
+            <summary>
+            First name of the user
+            </summary>
+        </member>
+        <member name="P:CustomServices.Concrete.User.LastName">
+            <summary>
+            Last name of the user
+            </summary>
+        </member>
+        <member name="P:CustomServices.Concrete.User.Age">
+            <summary>
+            Age of the user
+            </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.User.Equals(System.Object)">
+            <summary>
+            Compares users
+            </summary>
+            <param name="obj">User to compare</param>
+            <returns>True if all fields are the same else false</returns>
+            <exception cref="T:System.ArgumentNullException">Throws when obj is null or is not a user</exception>
+        </member>
+        <member name="M:CustomServices.Concrete.User.Equals(CustomServices.Concrete.User)">
+            <summary>
+            Compares users
+            </summary>
+            <param name="user">User to compare</param>
+            <returns>True if all fields are the same else false</returns>
+        </member>
+        <member name="M:CustomServices.Concrete.User.ToString">
+            <summary>
+            Returns a string representation of user
+            </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.User.GetHashCode">
+            <summary>
+            Returns hash of the object on its string representation
+            </summary>
+        </member>
+        <member name="T:CustomServices.Concrete.State">
+            <summary>
+            Enum says what to do with the list of users
+            </summary>
+        </member>
+        <member name="F:CustomServices.Concrete.State.Added">
+            <summary>
+            Sets when users are added 
+            </summary>
+        </member>
+        <member name="F:CustomServices.Concrete.State.Removed">
+            <summary>
+            Sets when users are removed
+            </summary>
+        </member>
+        <member name="T:CustomServices.Concrete.MasterNodeChanges">
+            <summary>
+            Class stores information about changes and ation, that will be sent throw network
+            </summary>
+        </member>
+        <member name="P:CustomServices.Concrete.MasterNodeChanges.Users">
+            <summary>
+            List of users added or removed
+            </summary>
+        </member>
+        <member name="P:CustomServices.Concrete.MasterNodeChanges.State">
+            <summary>
+            It says what to do with the list of users
+            </summary>
+        </member>
+        <member name="T:CustomServices.Concrete.UserService">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:CustomServices.Concrete.UserServiceMaster">
+            <summary>
+            Class represents a service of users
+            </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.Add(CustomServices.Concrete.User)">
+            <summary>
+            Adds a user to the service
+            </summary>
+            <remarks>Function uses generating function which generates an id for a new user</remarks>
+            <param name="user">Instance of user</param>
+            <exception cref="T:System.ArgumentNullException">Throws when user is null</exception>
+            <exception cref="T:CustomServices.Exceptions.UserIsNotValidException">Throws when first name and last name are not defined</exception>
+            <exception cref="T:CustomServices.Exceptions.UserAlreadyExistsException">Throws when a user with the same id already exists in the service</exception>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.Remove(System.Func{CustomServices.Concrete.User,System.Boolean})">
+            <summary>
+            Removes a user from the service on the specified condition
+            </summary>
+            <param name="predicate">Condition to delete a user</param>
+            <exception cref="T:System.ArgumentNullException">Throws when predicate is null</exception>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.Find(System.Func{CustomServices.Concrete.User,System.Boolean})">
+            <summary>
+            Returns users that satisfy the specified condition
+            </summary>
+            <param name="predicate">Condition to find a user</param>
+            <exception cref="T:System.ArgumentNullException">Throws when predicate is null</exception>
+            <returns>Returns an enumeration of users</returns>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.Save(CustomServices.Abstract.IUserStorage)">
+            <summary>
+            Saves collection to the storage
+            </summary>
+            <param name="storage">Class that implements interface IUserStorage</param>
+            <exception cref="T:System.ArgumentNullException">Throws when storage is null</exception>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.Load(CustomServices.Abstract.IUserStorage)">
+            <summary>
+            Loads collection from the storage
+            </summary>
+            <param name="storage">Class that implements interface IUserStorage</param>
+            <exception cref="T:System.ArgumentNullException">Throws when storage is null</exception>
+        </member>
+        <member name="T:CustomServices.Concrete.UserStorageXml">
+            <summary>
+            Class to work with xml storage
+            </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.UserStorageXml.#ctor">
+            <summary>
+            Creates a new xml storage
+            </summary>>
+        </member>
+        <member name="M:CustomServices.Concrete.UserStorageXml.Save(System.Collections.Generic.IEnumerable{CustomServices.Concrete.User})">
+            <summary>
+            Saves the user's collection to the xml storage
+            </summary>
+            <remarks>If storage with the specified name does't exist, it will be created</remarks>
+        </member>
+        <member name="M:CustomServices.Concrete.UserStorageXml.Load">
+            <summary>
+            Loads the user's collecction from the xml storage
+            </summary>
+            <exception cref="T:CustomServices.Exceptions.NameNotFoundException">Wrong path to the storage</exception>
+        </member>
+        <member name="T:CustomServices.Exceptions.NameNotFoundException">
+            <summary>
+            Throws when name of the storage is not found
+            </summary>
+        </member>
+        <member name="T:CustomServices.Exceptions.UserAlreadyExistsException">
+            <summary>
+            Throws when user already exists
+            </summary>
+        </member>
+        <member name="T:CustomServices.Exceptions.UserIsNotValidException">
+            <summary>
+            Throws when user is not valid
+            </summary>
+        </member>
+    </members>
+</doc>

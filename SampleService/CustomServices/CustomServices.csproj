@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\CustomServices.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,7 +63,6 @@
     <Compile Include="Concrete\UserServiceMaster.cs" />
     <Compile Include="Concrete\UserStorageXml.cs" />
     <Compile Include="Exceptions\NameNotFoundException.cs" />
-    <Compile Include="Exceptions\NotHavePermissionException.cs" />
     <Compile Include="Exceptions\UserAlreadyExistsException.cs" />
     <Compile Include="Exceptions\UserIsNotValidException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

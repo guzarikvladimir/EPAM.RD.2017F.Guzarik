@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -12,7 +11,9 @@ using CustomServices.Exceptions;
 
 namespace CustomServices.Concrete
 {
-    [Serializable]
+    /// <summary>
+    /// Class represents a slave service that allows to find users
+    /// </summary>
     public sealed class UserService : MarshalByRefObject, IService<User>
     {
         private List<User> collection;
@@ -20,6 +21,9 @@ namespace CustomServices.Concrete
         private BinaryFormatter formatter;
         private NetworkStream stream;
 
+        /// <summary>
+        /// Creates an instance of the service and connects to the remote master
+        /// </summary>
         public UserService()
         {
             this.collection = new List<User>();
@@ -31,16 +35,11 @@ namespace CustomServices.Concrete
             thread.Start();
         }
 
-        public void Add(User item)
-        {
-            throw new NotHavePermissionException();
-        }
-
-        public void Remove(Func<User, bool> predicate)
-        {
-            throw new NotHavePermissionException();
-        }
-
+        /// <summary>
+        /// Finds a user in service
+        /// </summary>
+        /// <param name="predicate">Selection conditions</param>
+        /// <returns>Returns a list of objects that spetishy the specified condition</returns>
         public List<User> Find(Func<User, bool> predicate)
         {
             if (object.ReferenceEquals(predicate, null))
@@ -49,6 +48,18 @@ namespace CustomServices.Concrete
             }
 
             return this.collection.Where(predicate).ToList();
+        }
+
+        #region private methods
+
+        void IService<User>.Add(User item)
+        {
+            throw new NotImplementedException();
+        }
+
+        void IService<User>.Remove(Func<User, bool> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         private void Connect()
@@ -106,5 +117,7 @@ namespace CustomServices.Concrete
                 this.client?.Close();
             }
         }
+
+        #endregion
     }
 }

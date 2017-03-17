@@ -22,3 +22,4 @@ C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\obj\Debug\Cli
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\obj\Debug\Client.pdb
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\ServiceFactory.dll
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\ServiceFactory.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\CustomServices.xml
