@@ -17,13 +17,13 @@ namespace CustomServices.Concrete
     /// </summary>
     public sealed class UserServiceMaster : MarshalByRefObject, IService<User>
     {
-        private List<User> collection;
         private readonly IGenerator idGenerator;
         private readonly string[] registeredServices;
         private readonly List<TcpClient> activeServices;
         private readonly List<TcpClient> removedServices;
         private readonly TcpListener listener;
         private readonly BinaryFormatter formatter;
+        private List<User> collection;
 
         private Action<string> logAction = delegate { };
 
@@ -33,7 +33,7 @@ namespace CustomServices.Concrete
 
         public UserServiceMaster(IGenerator generator)
         {
-            if (ReferenceEquals(generator, null))
+            if (object.ReferenceEquals(generator, null))
             {
                 throw new ArgumentNullException(nameof(generator));
             }
@@ -45,15 +45,15 @@ namespace CustomServices.Concrete
             this.removedServices = new List<TcpClient>();
             this.activeServices = new List<TcpClient>();
 
-            TuneLogger();
+            this.TuneLogger();
 
             string[] localEndPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
-            listener = new TcpListener(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
-            listener.Start();
+            this.listener = new TcpListener(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
+            this.listener.Start();
 
-            new Thread(Listen) { IsBackground = true }.Start();
+            new Thread(this.Listen) { IsBackground = true }.Start();
 
-            var t = new Timer(CheckConnection, null, 600000, 600000);
+            var t = new Timer(this.CheckConnection, null, 600000, 600000);
         }
 
         /// <summary>
@@ -66,28 +66,28 @@ namespace CustomServices.Concrete
         /// <exception cref="UserAlreadyExistsException">Throws when a user with the same id already exists in the service</exception>
         public void Add(User user)
         {
-            if (ReferenceEquals(user, null))
+            if (object.ReferenceEquals(user, null))
             {
                 throw new ArgumentNullException(nameof(user));
             }
 
-            if (!ValidateUser(user))
+            if (!this.ValidateUser(user))
             {
                 throw new UserIsNotValidException(nameof(user));
             }
 
-            user.Id = idGenerator.GenerateId();
+            user.Id = this.idGenerator.GenerateId();
 
-            if (collection.Any(u => u.Id == user.Id))
+            if (this.collection.Any(u => u.Id == user.Id))
             {
                 throw new UserAlreadyExistsException(nameof(user));
             }
 
-            collection.Add(user);
+            this.collection.Add(user);
 
-            logAction($"{user.FirstName} {user.LastName} has been added.");
+            this.logAction($"{user.FirstName} {user.LastName} has been added.");
 
-            Send(new MasterNodeChanges()
+            this.Send(new MasterNodeChanges()
             {
                 Users = new List<User>() { user },
                 State = State.Added
@@ -101,20 +101,20 @@ namespace CustomServices.Concrete
         /// <exception cref="ArgumentNullException">Throws when predicate is null</exception>
         public void Remove(Func<User, bool> predicate)
         {
-            if (ReferenceEquals(predicate, null))
+            if (object.ReferenceEquals(predicate, null))
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            var users = collection.Where(predicate).ToArray();
+            var users = this.collection.Where(predicate).ToArray();
             foreach (var user in users)
             {
-                collection.Remove(user);
+                this.collection.Remove(user);
 
-                logAction($"{user.FirstName} {user.LastName} has been removed.");
+                this.logAction($"{user.FirstName} {user.LastName} has been removed.");
             }
 
-            Send(new MasterNodeChanges()
+            this.Send(new MasterNodeChanges()
             {
                 Users = users.ToList(),
                 State = State.Removed
@@ -127,14 +127,14 @@ namespace CustomServices.Concrete
         /// <param name="predicate">Condition to find a user</param>
         /// <exception cref="ArgumentNullException">Throws when predicate is null</exception>
         /// <returns>Returns an enumeration of users</returns>
-        public IEnumerable<User> Find(Func<User, bool> predicate)
+        public List<User> Find(Func<User, bool> predicate)
         {
-            if (ReferenceEquals(predicate, null))
+            if (object.ReferenceEquals(predicate, null))
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            return collection.Where(predicate);
+            return this.collection.Where(predicate).ToList();
         }
 
         /// <summary>
@@ -144,12 +144,12 @@ namespace CustomServices.Concrete
         /// <exception cref="ArgumentNullException">Throws when storage is null</exception>
         public void Save(IUserStorage storage)
         {
-            if (ReferenceEquals(storage, null))
+            if (object.ReferenceEquals(storage, null))
             {
                 throw new ArgumentNullException(nameof(storage));
             }
 
-            storage.Save(collection);
+            storage.Save(this.collection);
         }
 
         /// <summary>
@@ -159,23 +159,23 @@ namespace CustomServices.Concrete
         /// <exception cref="ArgumentNullException">Throws when storage is null</exception>
         public void Load(IUserStorage storage)
         {
-            if (ReferenceEquals(storage, null))
+            if (object.ReferenceEquals(storage, null))
             {
                 throw new ArgumentNullException(nameof(storage));
             }
 
-            collection = storage.Load().ToList();
-            
-            Send(new MasterNodeChanges()
+            this.collection = storage.Load().ToList();
+
+            this.Send(new MasterNodeChanges()
             {
-                Users = collection.ToList(),
+                Users = this.collection.ToList(),
                 State = State.Added
             });
         }
 
         public IEnumerable<User> GetAllUsers()
         {
-            return collection.ToArray();
+            return this.collection.ToArray();
         }
 
         #region PrivateMethods
@@ -185,7 +185,7 @@ namespace CustomServices.Concrete
             bool logging = string.Equals(ConfigurationManager.AppSettings["Logging"], "true", StringComparison.OrdinalIgnoreCase);
             if (logging)
             {
-                this.logAction = delegate (string str)
+                this.logAction = delegate(string str)
                 {
                     Logger logger = LogManager.GetCurrentClassLogger();
                     logger.Info(str);
@@ -205,29 +205,30 @@ namespace CustomServices.Concrete
 
         private void Send(MasterNodeChanges user)
         {
-            foreach (TcpClient service in activeServices)
+            foreach (TcpClient service in this.activeServices)
             {
                 try
                 {
                     NetworkStream stream = service.GetStream();
-                    formatter.Serialize(stream, user);
+                    this.formatter.Serialize(stream, user);
                 }
                 catch (Exception)
                 {
-                    removedServices.Add(service);
+                    this.removedServices.Add(service);
                 }
             }
 
-            CleanUp();
+            this.CleanUp();
         }
 
         private void CleanUp()
         {
-            foreach (TcpClient client in removedServices)
+            foreach (TcpClient client in this.removedServices)
             {
-                activeServices.Remove(client);
+                this.activeServices.Remove(client);
             }
-            removedServices.Clear();
+
+            this.removedServices.Clear();
         }
 
         private void Listen()
@@ -236,21 +237,23 @@ namespace CustomServices.Concrete
             {
                 while (true)
                 {
-                    TcpClient client = listener.AcceptTcpClient();
+                    TcpClient client = this.listener.AcceptTcpClient();
 
-                    if (!ValidateEndPoint(client))
+                    if (!this.ValidateEndPoint(client))
                     {
                         client.Close();
                     }
 
-                    activeServices.Add(client);
+                    this.activeServices.Add(client);
 
                     NetworkStream stream = client.GetStream();
 
-                    formatter.Serialize(stream, new MasterNodeChanges()
-                    {
-                        Users = collection.ToList()
-                    });
+                    this.formatter.Serialize(
+                        stream, 
+                        new MasterNodeChanges()
+                        {
+                            Users = this.collection.ToList()
+                        });
                 }
             }
             catch (Exception)
@@ -259,31 +262,32 @@ namespace CustomServices.Concrete
             }
             finally
             {
-                listener.Stop();
+                this.listener.Stop();
             }
         }
 
         private bool ValidateEndPoint(TcpClient client)
         {
             string clientEndPoint = client.Client.RemoteEndPoint.ToString();
-            if (registeredServices.Contains(clientEndPoint))
+            if (this.registeredServices.Contains(clientEndPoint))
             {
                 return true;
             }
+
             return false;
         }
 
         private void CheckConnection(object state)
         {
-            foreach (TcpClient client in activeServices)
+            foreach (TcpClient client in this.activeServices)
             {
                 if (!client.Connected)
                 {
-                    removedServices.Add(client);
+                    this.removedServices.Add(client);
                 }
             }
 
-            CleanUp();
+            this.CleanUp();
         }
 
         #endregion

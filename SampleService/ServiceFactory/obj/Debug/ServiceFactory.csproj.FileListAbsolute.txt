@@ -1,0 +1,9 @@
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\NLog.config
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\ServiceFactory.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\ServiceFactory.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\CustomServices.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\NLog.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\CustomServices.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\bin\Debug\NLog.xml
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\obj\Debug\ServiceFactory.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\ServiceFactory\obj\Debug\ServiceFactory.pdb

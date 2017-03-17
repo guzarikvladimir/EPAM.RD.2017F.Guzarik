@@ -14,3 +14,11 @@ C:\Users\Sacris\Desktop\SampleService — копия\CustomServices\bin\Debug\NL
 C:\Users\Sacris\Desktop\SampleService — копия\CustomServices\obj\Debug\CustomServices.dll
 C:\Users\Sacris\Desktop\SampleService — копия\CustomServices\obj\Debug\CustomServices.pdb
 C:\Users\Sacris\Desktop\SampleService — копия\CustomServices\obj\Debug\CustomServices.csprojResolveAssemblyReference.cache
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\Debug\NLog.config
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\Debug\CustomServices.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\Debug\CustomServices.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\Debug\NLog.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\Debug\NLog.xml
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.csprojResolveAssemblyReference.cache
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.pdb

@@ -24,3 +24,8 @@
 2017-03-16 22:48:34.2518|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
 2017-03-16 22:49:33.1146|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
 2017-03-16 22:52:41.5079|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-17 21:37:19.4731|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-17 21:37:19.5832|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been removed.
+2017-03-17 21:37:28.0700|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-17 21:45:15.9670|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been added.
+2017-03-17 21:45:18.9160|INFO|CustomServices.Concrete.UserServiceMaster+<>c|New User New user has been removed.

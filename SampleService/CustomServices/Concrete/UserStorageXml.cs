@@ -35,15 +35,17 @@ namespace CustomServices.Concrete
 
             foreach (var user in collection)
             {
-                XElement elem = new XElement("user",
+                XElement elem = new XElement(
+                    "user",
                     new XElement("Id", user.Id),
                     new XElement("FirstName", user.FirstName),
                     new XElement("LastName", user.LastName),
                     new XElement("Age", user.Age));
                 users.Add(elem);
             }
+
             xdoc.Add(users);
-            xdoc.Save(path);
+            xdoc.Save(this.path);
         }
 
         /// <summary>
@@ -58,7 +60,7 @@ namespace CustomServices.Concrete
 
             try
             {
-                xdoc.Load(path);
+                xdoc.Load(this.path);
             }
             catch (FileNotFoundException exc)
             {
@@ -73,16 +75,24 @@ namespace CustomServices.Concrete
                 foreach (XmlNode childNode in xnode.ChildNodes)
                 {
                     if (childNode.Name == "Id")
+                    {
                         user.Id = int.Parse(childNode.InnerText);
+                    }
 
                     if (childNode.Name == "FirstName")
+                    {
                         user.FirstName = childNode.InnerText;
-
+                    }
+                        
                     if (childNode.Name == "LastName")
+                    {
                         user.LastName = childNode.InnerText;
-
+                    }
+                        
                     if (childNode.Name == "Age")
+                    {
                         user.Age = int.Parse(childNode.InnerText);
+                    }
                 }
 
                 collection.Add(user);

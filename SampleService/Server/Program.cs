@@ -3,12 +3,18 @@ using CustomServices.Concrete;
 
 namespace Server
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var service = new UserServiceMaster();
-            //service.Load(new UserStorageXml());
+            var service =
+                (UserServiceMaster)ServiceFactory.ServiceFactory.Create(
+                    AppDomain.CurrentDomain, 
+                    "AD Master",
+                    "CustomServices", 
+                    typeof(UserServiceMaster));
+
+            //// service.Load(new UserStorageXml());
 
             Console.WriteLine("Master service content:");
             foreach (var user in service.GetAllUsers())

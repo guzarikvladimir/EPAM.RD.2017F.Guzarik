@@ -9,3 +9,16 @@ C:\Users\Sacris\Desktop\SampleService — копия\Client\bin\Debug\NLog.xml
 C:\Users\Sacris\Desktop\SampleService — копия\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
 C:\Users\Sacris\Desktop\SampleService — копия\Client\obj\Debug\Client.exe
 C:\Users\Sacris\Desktop\SampleService — копия\Client\obj\Debug\Client.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\NLog.config
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\Client.exe.config
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\Client.exe
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\Client.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\CustomServices.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\NLog.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\CustomServices.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\NLog.xml
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\obj\Debug\Client.exe
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\obj\Debug\Client.pdb
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\ServiceFactory.dll
+C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\Client\bin\Debug\ServiceFactory.pdb

@@ -38,7 +38,7 @@ namespace CustomServices.Concrete
                 throw new ArgumentException(nameof(user));
             }
 
-            return Equals(user);
+            return this.Equals(user);
         }
 
         public bool Equals(User user)

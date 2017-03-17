@@ -57,6 +57,10 @@
       <Project>{D6639DC0-6A43-431E-BD94-5FAEDCD18B6A}</Project>
       <Name>CustomServices</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServiceFactory\ServiceFactory.csproj">
+      <Project>{52a9b536-f11c-4372-bcad-17467bf03672}</Project>
+      <Name>ServiceFactory</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

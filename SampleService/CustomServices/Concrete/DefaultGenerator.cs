@@ -6,7 +6,7 @@ namespace CustomServices.Concrete
     /// <summary>
     /// Class implements an IGenerator interface
     /// </summary>
-    internal class DefaultGenerator : IGenerator
+    public class DefaultGenerator : IGenerator
     {
         private int current;
 

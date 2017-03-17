@@ -17,7 +17,7 @@ namespace CustomServices.Concrete
     {
         private List<User> collection;
         private TcpClient client;
-        private readonly BinaryFormatter formatter;
+        private BinaryFormatter formatter;
         private NetworkStream stream;
 
         public UserService()
@@ -25,9 +25,9 @@ namespace CustomServices.Concrete
             this.collection = new List<User>();
             this.formatter = new BinaryFormatter();
 
-            Connect();
+            this.Connect();
 
-            var thread = new Thread(Listen) { IsBackground = true };
+            var thread = new Thread(this.Listen) { IsBackground = true };
             thread.Start();
         }
 
@@ -41,26 +41,26 @@ namespace CustomServices.Concrete
             throw new NotHavePermissionException();
         }
 
-        public IEnumerable<User> Find(Func<User, bool> predicate)
+        public List<User> Find(Func<User, bool> predicate)
         {
-            if (ReferenceEquals(predicate, null))
+            if (object.ReferenceEquals(predicate, null))
             {
                 throw new ArgumentNullException();
             }
 
-            return this.collection.Where(predicate);
+            return this.collection.Where(predicate).ToList();
         }
 
         private void Connect()
         {
             string[] localEndPoint = ConfigurationManager.AppSettings["LocalEndPoint"].Split(':');
             string[] remoteEndPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
-            client = new TcpClient(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
-            client.Connect(remoteEndPoint[0], int.Parse(remoteEndPoint[1]));
+            this.client = new TcpClient(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
+            this.client.Connect(remoteEndPoint[0], int.Parse(remoteEndPoint[1]));
 
-            this.stream = client.GetStream();
+            this.stream = this.client.GetStream();
 
-            var info = (MasterNodeChanges)formatter.Deserialize(stream);
+            var info = (MasterNodeChanges)this.formatter.Deserialize(this.stream);
 
             this.collection = info.Users.ToList();
         }
@@ -71,23 +71,25 @@ namespace CustomServices.Concrete
             {
                 while (true)
                 {
-                    if (stream.DataAvailable)
+                    if (this.stream.DataAvailable)
                     {
-                        var info = (MasterNodeChanges)formatter.Deserialize(stream);
+                        var info = (MasterNodeChanges)this.formatter.Deserialize(this.stream);
 
                         switch (info.State)
                         {
                             case State.Added:
                                 foreach (User user in info.Users)
                                 {
-                                    collection.Add(user);
+                                    this.collection.Add(user);
                                 }
+
                                 break;
                             case State.Removed:
                                 foreach (User user in info.Users)
                                 {
-                                    collection.Remove(user);
+                                    this.collection.Remove(user);
                                 }
+
                                 break;
                             default:
                                 throw new ArgumentOutOfRangeException();
@@ -101,7 +103,7 @@ namespace CustomServices.Concrete
             }
             finally
             {
-                client.Close();
+                this.client?.Close();
             }
         }
     }
