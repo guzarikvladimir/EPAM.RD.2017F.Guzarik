@@ -23,3 +23,4 @@ C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\D
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.dll
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\obj\Debug\CustomServices.pdb
 C:\Users\Sacris\Desktop\EPAM.RD.2017F.Guzarik\SampleService\CustomServices\bin\Debug\CustomServices.XML
+C:\Users\Sacris\Desktop\SampleService\CustomServices\bin\Debug\CustomServices.XML

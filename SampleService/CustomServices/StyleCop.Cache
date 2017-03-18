@@ -23,9 +23,6 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <project key="-1833237761">
-    <configuration>DEBUG;TRACE</configuration>
-  </project>
   <sourcecode name="IGenerator.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016.11.09 21:13:02.000</styleCop>
@@ -187,29 +184,6 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <sourcecode name="UserServiceMaster.cs" parser="StyleCop.CSharp.CsParser">
-    <timestamps>
-      <styleCop>2016.11.09 21:13:02.000</styleCop>
-      <settingsFile>2016.11.04 08:53:20.000</settingsFile>
-      <sourceFile>2017.03.17 22:48:55.892</sourceFile>
-      <parser>2016.11.09 21:13:02.000</parser>
-      <StyleCop.CSharp.DocumentationRules>2016.11.09 21:13:02.000</StyleCop.CSharp.DocumentationRules>
-      <StyleCop.CSharp.DocumentationRules.FilesHashCode>119483193</StyleCop.CSharp.DocumentationRules.FilesHashCode>
-      <StyleCop.CSharp.LayoutRules>2016.11.09 21:13:02.000</StyleCop.CSharp.LayoutRules>
-      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
-      <StyleCop.CSharp.MaintainabilityRules>2016.11.09 21:13:02.000</StyleCop.CSharp.MaintainabilityRules>
-      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
-      <StyleCop.CSharp.NamingRules>2016.11.09 21:13:02.000</StyleCop.CSharp.NamingRules>
-      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
-      <StyleCop.CSharp.OrderingRules>2016.11.09 21:13:02.000</StyleCop.CSharp.OrderingRules>
-      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
-      <StyleCop.CSharp.ReadabilityRules>2016.11.09 21:13:02.000</StyleCop.CSharp.ReadabilityRules>
-      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
-      <StyleCop.CSharp.SpacingRules>2016.11.09 21:13:02.000</StyleCop.CSharp.SpacingRules>
-      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
-    </timestamps>
-    <violations />
-  </sourcecode>
   <sourcecode name="UserStorageXml.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2016.11.09 21:13:02.000</styleCop>
@@ -324,5 +298,250 @@
       <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
     </timestamps>
     <violations />
+  </sourcecode>
+  <project key="-1833237761">
+    <configuration>DEBUG;TRACE</configuration>
+  </project>
+  <sourcecode name="UserServiceMaster.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2016.11.09 21:13:02.000</styleCop>
+      <settingsFile>2016.11.04 08:53:20.000</settingsFile>
+      <sourceFile>2017.03.18 20:29:56.585</sourceFile>
+      <parser>2016.11.09 21:13:02.000</parser>
+      <StyleCop.CSharp.DocumentationRules>2016.11.09 21:13:02.000</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>119483193</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2016.11.09 21:13:02.000</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2016.11.09 21:13:02.000</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2016.11.09 21:13:02.000</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2016.11.09 21:13:02.000</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2016.11.09 21:13:02.000</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2016.11.09 21:13:02.000</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>112</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>140</line>
+        <index>5173</index>
+        <endIndex>5178</endIndex>
+        <startLine>140</startLine>
+        <startColumn>13</startColumn>
+        <endLine>140</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>142</line>
+        <index>5279</index>
+        <endIndex>5284</endIndex>
+        <startLine>142</startLine>
+        <startColumn>13</startColumn>
+        <endLine>142</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>146</line>
+        <index>5389</index>
+        <endIndex>5394</endIndex>
+        <startLine>146</startLine>
+        <startColumn>17</startColumn>
+        <endLine>146</endLine>
+        <endColumn>22</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>148</line>
+        <index>5478</index>
+        <endIndex>5483</endIndex>
+        <startLine>148</startLine>
+        <startColumn>17</startColumn>
+        <endLine>148</endLine>
+        <endColumn>22</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to registeredServices must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>239</line>
+        <index>8596</index>
+        <endIndex>8613</endIndex>
+        <startLine>239</startLine>
+        <startColumn>17</startColumn>
+        <endLine>239</endLine>
+        <endColumn>34</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to registeredServices must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>237</line>
+        <index>8532</index>
+        <endIndex>8549</endIndex>
+        <startLine>237</startLine>
+        <startColumn>33</startColumn>
+        <endLine>237</endLine>
+        <endColumn>50</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>279</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>265</line>
+        <index>9218</index>
+        <endIndex>9223</endIndex>
+        <startLine>265</startLine>
+        <startColumn>13</startColumn>
+        <endLine>265</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>275</line>
+        <index>9581</index>
+        <endIndex>9586</endIndex>
+        <startLine>275</startLine>
+        <startColumn>21</startColumn>
+        <endLine>275</endLine>
+        <endColumn>26</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>277</line>
+        <index>9683</index>
+        <endIndex>9688</endIndex>
+        <startLine>277</startLine>
+        <startColumn>21</startColumn>
+        <endLine>277</endLine>
+        <endColumn>26</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>280</line>
+        <index>9754</index>
+        <endIndex>9759</endIndex>
+        <startLine>280</startLine>
+        <startColumn>13</startColumn>
+        <endLine>280</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>287</line>
+        <index>9877</index>
+        <endIndex>9882</endIndex>
+        <startLine>287</startLine>
+        <startColumn>13</startColumn>
+        <endLine>287</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>294</line>
+        <index>10107</index>
+        <endIndex>10112</endIndex>
+        <startLine>294</startLine>
+        <startColumn>13</startColumn>
+        <endLine>294</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>310</line>
+        <index>10509</index>
+        <endIndex>10514</endIndex>
+        <startLine>310</startLine>
+        <startColumn>21</startColumn>
+        <endLine>310</endLine>
+        <endColumn>26</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>312</line>
+        <index>10608</index>
+        <endIndex>10613</endIndex>
+        <startLine>312</startLine>
+        <startColumn>21</startColumn>
+        <endLine>312</endLine>
+        <endColumn>26</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>341</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>337</line>
+        <index>11333</index>
+        <endIndex>11338</endIndex>
+        <startLine>337</startLine>
+        <startColumn>13</startColumn>
+        <endLine>337</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>342</line>
+        <index>11497</index>
+        <endIndex>11502</endIndex>
+        <startLine>342</startLine>
+        <startColumn>13</startColumn>
+        <endLine>342</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>356</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>349</line>
+        <index>11638</index>
+        <endIndex>11643</endIndex>
+        <startLine>349</startLine>
+        <startColumn>13</startColumn>
+        <endLine>349</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.ReadabilityRules" rule="PrefixCallsCorrectly" ruleCheckId="SA1126">
+        <context>The call to locker must begin with the 'this.', 'base.', 'object.' or 'UserServiceMaster.' or 'MarshalByRefObject.' prefix to indicate the intended method call. </context>
+        <line>357</line>
+        <index>11902</index>
+        <endIndex>11907</endIndex>
+        <startLine>357</startLine>
+        <startColumn>13</startColumn>
+        <endLine>357</endLine>
+        <endColumn>18</endColumn>
+        <warning>False</warning>
+      </violation>
+    </violations>
   </sourcecode>
 </stylecopresultscache>

@@ -1,5 +1,6 @@
 ﻿using System;
 using CustomServices.Concrete;
+using CustomServices.Configuration;
 
 namespace Server
 {
@@ -14,7 +15,7 @@ namespace Server
                     "CustomServices", 
                     typeof(UserServiceMaster));
 
-            //// service.Load(new UserStorageXml());
+            service.Load(new UserStorageXml());
 
             Console.WriteLine("Master service content:");
             foreach (var user in service.GetAllUsers())

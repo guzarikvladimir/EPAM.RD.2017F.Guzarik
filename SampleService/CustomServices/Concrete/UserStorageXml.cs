@@ -5,6 +5,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Linq;
 using CustomServices.Abstract;
+using CustomServices.Configuration;
 using CustomServices.Exceptions;
 
 namespace CustomServices.Concrete
@@ -21,7 +22,8 @@ namespace CustomServices.Concrete
         /// </summary>>
         public UserStorageXml()
         {
-            this.path = ConfigurationManager.AppSettings["FileName"] + ".xml";
+            AppConfigSection config = AppConfigSection.GetConfigSection();
+            this.path = config.FilePath.Value + ".xml";
         }
 
         /// <summary>

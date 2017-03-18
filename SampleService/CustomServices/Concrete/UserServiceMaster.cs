@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using CustomServices.Abstract;
+using CustomServices.Configuration;
 using CustomServices.Exceptions;
 using NLog;
 
@@ -17,13 +18,13 @@ namespace CustomServices.Concrete
     /// </summary>
     public sealed class UserServiceMaster : MarshalByRefObject, IService<User>
     {
-        private readonly string[] registeredServices;
         private readonly List<TcpClient> activeServices;
         private readonly List<TcpClient> removedServices;
         private readonly TcpListener listener;
         private readonly BinaryFormatter formatter;
         private List<User> collection;
         private IGenerator idGenerator;
+        private string[] registeredServices;
         private Action<string> logAction = delegate { };
 
         /// <summary>
@@ -41,14 +42,16 @@ namespace CustomServices.Concrete
         {
             this.IdGenerator = generator;
             this.collection = new List<User>();
-            this.registeredServices = ConfigurationManager.AppSettings["SlaveEndPoints"].Split(',');
             this.formatter = new BinaryFormatter();
             this.removedServices = new List<TcpClient>();
             this.activeServices = new List<TcpClient>();
 
-            this.TuneLogger();
+            AppConfigSection config = AppConfigSection.GetConfigSection();
+            
+            this.TuneLogger(config);
+            this.GetRegisteredServices(config);
 
-            string[] localEndPoint = ConfigurationManager.AppSettings["MasterEndPoint"].Split(':');
+            string[] localEndPoint = config.MasterEndPoint.EndPoint.Split(':');
             this.listener = new TcpListener(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
             this.listener.Start();
 
@@ -130,6 +133,7 @@ namespace CustomServices.Concrete
             }
 
             var users = this.collection.Where(predicate).ToArray();
+            
             foreach (var user in users)
             {
                 this.collection.Remove(user);
@@ -206,16 +210,25 @@ namespace CustomServices.Concrete
 
         #region PrivateMethods
 
-        private void TuneLogger()
+        private void TuneLogger(AppConfigSection config)
         {
-            bool logging = string.Equals(ConfigurationManager.AppSettings["Logging"], "true", StringComparison.OrdinalIgnoreCase);
-            if (logging)
+            if (config.Logging.Value)
             {
                 this.logAction = delegate(string str)
                 {
                     Logger logger = LogManager.GetCurrentClassLogger();
                     logger.Info(str);
                 };
+            }
+        }
+
+        private void GetRegisteredServices(AppConfigSection config)
+        {
+            int count = config.EndPoints.Count;
+            this.registeredServices = new string[count];
+            for (int i = 0; i < count; i++)
+            {
+                registeredServices[i] = config.EndPoints[i].EndPoint;
             }
         }
 
@@ -279,7 +292,7 @@ namespace CustomServices.Concrete
                     {
                         client.Close();
                     }
-
+                    
                     this.activeServices.Add(client);
 
                     NetworkStream stream = client.GetStream();
@@ -305,6 +318,7 @@ namespace CustomServices.Concrete
         private bool ValidateEndPoint(TcpClient client)
         {
             string clientEndPoint = client.Client.RemoteEndPoint.ToString();
+;
             if (this.registeredServices.Contains(clientEndPoint))
             {
                 return true;

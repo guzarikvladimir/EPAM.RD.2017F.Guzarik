@@ -169,13 +169,42 @@
         </member>
         <member name="T:CustomServices.Concrete.UserService">
             <summary>
-            
+            Class represents a slave service that allows to find users
             </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.UserService.#ctor">
+            <summary>
+            Creates an instance of the service and connects to the remote master
+            </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.UserService.Find(System.Func{CustomServices.Concrete.User,System.Boolean})">
+            <summary>
+            Finds a user in service
+            </summary>
+            <param name="predicate">Selection conditions</param>
+            <returns>Returns a list of objects that spetishy the specified condition</returns>
         </member>
         <member name="T:CustomServices.Concrete.UserServiceMaster">
             <summary>
-            Class represents a service of users
+            Class represents a master service that allows to add, remove and find users
             </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.#ctor">
+            <summary>
+            Creates an instance of master service with default generator and begins to accept slaves
+            </summary>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.#ctor(CustomServices.Abstract.IGenerator)">
+            <summary>
+            Creates an instance of master service with the specified generator and begins to accept slaves
+            </summary>
+            <param name="generator">Class that generates id for user</param>
+        </member>
+        <member name="P:CustomServices.Concrete.UserServiceMaster.IdGenerator">
+            <summary>
+            Gets or sets generator
+            </summary>
+            <exception cref="T:System.ArgumentNullException">Throws when generator is null</exception>
         </member>
         <member name="M:CustomServices.Concrete.UserServiceMaster.Add(CustomServices.Concrete.User)">
             <summary>
@@ -200,21 +229,26 @@
             </summary>
             <param name="predicate">Condition to find a user</param>
             <exception cref="T:System.ArgumentNullException">Throws when predicate is null</exception>
-            <returns>Returns an enumeration of users</returns>
+            <returns>Returns a list of users</returns>
         </member>
         <member name="M:CustomServices.Concrete.UserServiceMaster.Save(CustomServices.Abstract.IUserStorage)">
             <summary>
             Saves collection to the storage
             </summary>
-            <param name="storage">Class that implements interface IUserStorage</param>
+            <param name="storage">Class that implements interface IUserStorage and its save/load functions</param>
             <exception cref="T:System.ArgumentNullException">Throws when storage is null</exception>
         </member>
         <member name="M:CustomServices.Concrete.UserServiceMaster.Load(CustomServices.Abstract.IUserStorage)">
             <summary>
             Loads collection from the storage
             </summary>
-            <param name="storage">Class that implements interface IUserStorage</param>
+            <param name="storage">Class that implements interface IUserStorage and its save/load functions</param>
             <exception cref="T:System.ArgumentNullException">Throws when storage is null</exception>
+        </member>
+        <member name="M:CustomServices.Concrete.UserServiceMaster.GetAllUsers">
+            <summary>
+            Returns collection of users
+            </summary>
         </member>
         <member name="T:CustomServices.Concrete.UserStorageXml">
             <summary>
@@ -243,15 +277,69 @@
             Throws when name of the storage is not found
             </summary>
         </member>
+        <member name="M:CustomServices.Exceptions.NameNotFoundException.#ctor(System.String,System.IO.FileNotFoundException)">
+            <summary>
+            Creates an empty exception
+            </summary>
+        </member>
+        <member name="M:CustomServices.Exceptions.NameNotFoundException.#ctor(System.String)">
+            <summary>
+            Creates an exception with the specified message
+            </summary>
+            <param name="message">Message of exception</param>
+        </member>
+        <member name="M:CustomServices.Exceptions.NameNotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates an exception with the specifed mesage ind innedr exception
+            </summary>
+            <param name="message">Message of exception</param>
+            /// <param name="inner">Inner exception</param>
+        </member>
         <member name="T:CustomServices.Exceptions.UserAlreadyExistsException">
             <summary>
             Throws when user already exists
             </summary>
         </member>
+        <member name="M:CustomServices.Exceptions.UserAlreadyExistsException.#ctor">
+            <summary>
+            Creates an empty exception
+            </summary>
+        </member>
+        <member name="M:CustomServices.Exceptions.UserAlreadyExistsException.#ctor(System.String)">
+            <summary>
+            Creates an exception with the specified message
+            </summary>
+            <param name="message">Message of exception</param>
+        </member>
+        <member name="M:CustomServices.Exceptions.UserAlreadyExistsException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates an exception with the specifed mesage ind innedr exception
+            </summary>
+            <param name="message">Message of exception</param>
+            <param name="inner">Inner exception</param>
+        </member>
         <member name="T:CustomServices.Exceptions.UserIsNotValidException">
             <summary>
             Throws when user is not valid
             </summary>
+        </member>
+        <member name="M:CustomServices.Exceptions.UserIsNotValidException.#ctor">
+            <summary>
+            Creates an empty exception
+            </summary>
+        </member>
+        <member name="M:CustomServices.Exceptions.UserIsNotValidException.#ctor(System.String)">
+            <summary>
+            Creates an exception with the specified message
+            </summary>
+            <param name="message">Message of exception</param>
+        </member>
+        <member name="M:CustomServices.Exceptions.UserIsNotValidException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates an exception with the specifed mesage ind innedr exception
+            </summary>
+            <param name="message">Message of exception</param>
+            /// <param name="inner">Inner exception</param>
         </member>
     </members>
 </doc>
