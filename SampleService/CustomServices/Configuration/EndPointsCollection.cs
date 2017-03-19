@@ -24,7 +24,7 @@ namespace CustomServices.Configuration
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return (EndPointElement) element;
+            return (EndPointElement)element;
         }
     }
 }

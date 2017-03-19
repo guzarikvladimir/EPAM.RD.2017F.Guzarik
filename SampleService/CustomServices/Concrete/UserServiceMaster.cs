@@ -1,4 +1,6 @@
 ﻿using System;
+using System.CodeDom;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -26,6 +28,7 @@ namespace CustomServices.Concrete
         private IGenerator idGenerator;
         private string[] registeredServices;
         private Action<string> logAction = delegate { };
+        private ReaderWriterLockSlim locker = new ReaderWriterLockSlim(LockRecursionPolicy.NoRecursion);
 
         /// <summary>
         /// Creates an instance of master service with default generator and begins to accept slaves
@@ -47,7 +50,7 @@ namespace CustomServices.Concrete
             this.activeServices = new List<TcpClient>();
 
             AppConfigSection config = AppConfigSection.GetConfigSection();
-            
+
             this.TuneLogger(config);
             this.GetRegisteredServices(config);
 
@@ -109,7 +112,15 @@ namespace CustomServices.Concrete
                 throw new UserAlreadyExistsException(nameof(user));
             }
 
-            this.collection.Add(user);
+            this.locker.EnterWriteLock();
+            try
+            {
+                this.collection.Add(user);
+            }
+            finally
+            {
+                this.locker.ExitWriteLock();
+            }
 
             this.logAction($"{user.FirstName} {user.LastName} has been added.");
 
@@ -132,11 +143,28 @@ namespace CustomServices.Concrete
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            var users = this.collection.Where(predicate).ToArray();
-            
+            User[] users;
+            this.locker.EnterReadLock();
+            try
+            {
+                users = this.collection.Where(predicate).ToArray();
+            }
+            finally
+            {
+                this.locker.ExitReadLock();
+            }
+
             foreach (var user in users)
             {
-                this.collection.Remove(user);
+                this.locker.EnterWriteLock();
+                try
+                {
+                    this.collection.Remove(user);
+                }
+                finally
+                {
+                    this.locker.ExitWriteLock();
+                }
 
                 this.logAction($"{user.FirstName} {user.LastName} has been removed.");
             }
@@ -161,7 +189,15 @@ namespace CustomServices.Concrete
                 throw new ArgumentNullException(nameof(predicate));
             }
 
-            return this.collection.Where(predicate).ToList();
+            this.locker.EnterReadLock();
+            try
+            {
+                return this.collection.Where(predicate).ToList();
+            }
+            finally
+            {
+                this.locker.ExitReadLock();
+            }
         }
 
         /// <summary>
@@ -191,7 +227,15 @@ namespace CustomServices.Concrete
                 throw new ArgumentNullException(nameof(storage));
             }
 
-            this.collection = storage.Load().ToList();
+            this.locker.EnterWriteLock();
+            try
+            {
+                this.collection = storage.Load().ToList();
+            }
+            finally
+            {
+                this.locker.ExitWriteLock();
+            }
 
             this.Send(new MasterNodeChanges()
             {
@@ -228,7 +272,7 @@ namespace CustomServices.Concrete
             this.registeredServices = new string[count];
             for (int i = 0; i < count; i++)
             {
-                registeredServices[i] = config.EndPoints[i].EndPoint;
+                this.registeredServices[i] = config.EndPoints[i].EndPoint;
             }
         }
 
@@ -244,9 +288,17 @@ namespace CustomServices.Concrete
 
         private bool Exists(User user)
         {
-            if (this.collection.Any(u => u.Id == user.Id))
+            this.locker.EnterReadLock();
+            try
             {
-                return true;
+                if (this.collection.Any(u => u.Id == user.Id))
+                {
+                    return true;
+                }
+            }
+            finally
+            {
+                this.locker.ExitReadLock();
             }
 
             return false;
@@ -254,17 +306,33 @@ namespace CustomServices.Concrete
 
         private void Send(MasterNodeChanges user)
         {
-            foreach (TcpClient service in this.activeServices)
+            this.locker.EnterUpgradeableReadLock();
+            try
             {
-                try
+                foreach (TcpClient service in this.activeServices)
                 {
-                    NetworkStream stream = service.GetStream();
-                    this.formatter.Serialize(stream, user);
+                    try
+                    {
+                        NetworkStream stream = service.GetStream();
+                        this.formatter.Serialize(stream, user);
+                    }
+                    catch (Exception)
+                    {
+                        this.locker.EnterWriteLock();
+                        try
+                        {
+                            this.removedServices.Add(service);
+                        }
+                        finally
+                        {
+                            this.locker.ExitWriteLock();
+                        }
+                    }
                 }
-                catch (Exception)
-                {
-                    this.removedServices.Add(service);
-                }
+            }
+            finally
+            {
+                this.locker.ExitUpgradeableReadLock();
             }
 
             this.CleanUp();
@@ -272,56 +340,86 @@ namespace CustomServices.Concrete
 
         private void CleanUp()
         {
-            foreach (TcpClient client in this.removedServices)
+            this.locker.EnterUpgradeableReadLock();
+            try
             {
-                this.activeServices.Remove(client);
+                foreach (TcpClient client in this.removedServices)
+                {
+                    this.locker.EnterWriteLock();
+                    try
+                    {
+                        this.activeServices.Remove(client);
+                    }
+                    finally
+                    {
+                        this.locker.ExitWriteLock();
+                    }
+                }
+            }
+            finally
+            {
+                this.locker.ExitUpgradeableReadLock();
             }
 
-            this.removedServices.Clear();
+            this.locker.EnterWriteLock();
+            try
+            {
+                this.removedServices.Clear();
+            }
+            finally
+            {
+                this.locker.ExitWriteLock();
+            }
         }
 
         private void Listen()
         {
-            try
+            TcpClient client = null;
+
+            while (true)
             {
-                while (true)
+                try
                 {
-                    TcpClient client = this.listener.AcceptTcpClient();
+                    client = this.listener.AcceptTcpClient();
 
                     if (!this.ValidateEndPoint(client))
                     {
                         client.Close();
                     }
-                    
+
                     this.activeServices.Add(client);
 
                     NetworkStream stream = client.GetStream();
 
                     this.formatter.Serialize(
-                        stream, 
+                        stream,
                         new MasterNodeChanges()
                         {
                             Users = this.collection.ToList()
                         });
                 }
-            }
-            catch (Exception)
-            {
-                // ignored
-            }
-            finally
-            {
-                this.listener.Stop();
+                catch
+                {
+                    client?.Close();
+                }
             }
         }
 
         private bool ValidateEndPoint(TcpClient client)
         {
             string clientEndPoint = client.Client.RemoteEndPoint.ToString();
-;
-            if (this.registeredServices.Contains(clientEndPoint))
+
+            this.locker.EnterReadLock();
+            try
             {
-                return true;
+                if (this.registeredServices.Contains(clientEndPoint))
+                {
+                    return true;
+                }
+            }
+            finally
+            {
+                this.locker.ExitReadLock();
             }
 
             return false;
@@ -329,12 +427,28 @@ namespace CustomServices.Concrete
 
         private void CheckConnection(object state)
         {
-            foreach (TcpClient client in this.activeServices)
+            this.locker.EnterUpgradeableReadLock();
+            try
             {
-                if (!client.Connected)
+                foreach (TcpClient client in this.activeServices)
                 {
-                    this.removedServices.Add(client);
+                    if (!client.Connected)
+                    {
+                        this.locker.EnterWriteLock();
+                        try
+                        {
+                            this.removedServices.Add(client);
+                        }
+                        finally
+                        {
+                            this.locker.ExitWriteLock();
+                        }
+                    }
                 }
+            }
+            finally
+            {
+                this.locker.ExitUpgradeableReadLock();
             }
 
             this.CleanUp();

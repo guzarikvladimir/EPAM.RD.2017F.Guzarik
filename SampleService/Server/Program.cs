@@ -16,6 +16,7 @@ namespace Server
                     typeof(UserServiceMaster));
 
             service.Load(new UserStorageXml());
+            service.IdGenerator = new DefaultGenerator(4);
 
             Console.WriteLine("Master service content:");
             foreach (var user in service.GetAllUsers())

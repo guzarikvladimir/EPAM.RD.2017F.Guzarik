@@ -11,7 +11,6 @@ namespace CustomServices.Configuration
     {
         public AppConfigSection()
         {
-            
         }
 
         [ConfigurationProperty("endPointsCollection")]

@@ -14,7 +14,8 @@ namespace CustomServices.Configuration
         {
             get
             {
-                return string.Equals(this["value"] as string, "true", StringComparison.InvariantCultureIgnoreCase);
+                string val = this["value"] as string;
+                return string.Equals(val, "true", StringComparison.InvariantCultureIgnoreCase);
             }
         }
     }
