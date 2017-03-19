@@ -67,6 +67,7 @@
     <Compile Include="Configuration\FilePathElement.cs" />
     <Compile Include="Configuration\LoggingElement.cs" />
     <Compile Include="Configuration\EndPointElement.cs" />
+    <Compile Include="Configuration\ThreadPoolElement.cs" />
     <Compile Include="Exceptions\NameNotFoundException.cs" />
     <Compile Include="Exceptions\UserAlreadyExistsException.cs" />
     <Compile Include="Exceptions\UserIsNotValidException.cs" />

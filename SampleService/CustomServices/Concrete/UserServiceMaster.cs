@@ -54,9 +54,13 @@ namespace CustomServices.Concrete
             this.TuneLogger(config);
             this.GetRegisteredServices(config);
 
-            string[] localEndPoint = config.MasterEndPoint.EndPoint.Split(':');
-            this.listener = new TcpListener(new IPEndPoint(IPAddress.Parse(localEndPoint[0]), int.Parse(localEndPoint[1])));
+            this.listener =
+                new TcpListener(new IPEndPoint(IPAddress.Parse(config.MasterEndPoint.Hostname),
+                    int.Parse(config.MasterEndPoint.Port)));
             this.listener.Start();
+
+            ThreadPool.SetMaxThreads(int.Parse(config.ThreadPool.Max), int.Parse(config.ThreadPool.Max));
+            ThreadPool.SetMinThreads(int.Parse(config.ThreadPool.Min), int.Parse(config.ThreadPool.Min));
 
             new Thread(this.Listen) { IsBackground = true }.Start();
 
@@ -256,7 +260,8 @@ namespace CustomServices.Concrete
 
         private void TuneLogger(AppConfigSection config)
         {
-            if (config.Logging.Value)
+            bool logging = string.Equals(config.Logging.Value, "true", StringComparison.InvariantCultureIgnoreCase);
+            if (logging)
             {
                 this.logAction = delegate(string str)
                 {
@@ -272,7 +277,7 @@ namespace CustomServices.Concrete
             this.registeredServices = new string[count];
             for (int i = 0; i < count; i++)
             {
-                this.registeredServices[i] = config.EndPoints[i].EndPoint;
+                this.registeredServices[i] = config.EndPoints[i].Hostname + ":" + config.EndPoints[i].Port;
             }
         }
 
@@ -382,27 +387,34 @@ namespace CustomServices.Concrete
                 {
                     client = this.listener.AcceptTcpClient();
 
-                    if (!this.ValidateEndPoint(client))
-                    {
-                        client.Close();
-                    }
-
-                    this.activeServices.Add(client);
-
-                    NetworkStream stream = client.GetStream();
-
-                    this.formatter.Serialize(
-                        stream,
-                        new MasterNodeChanges()
-                        {
-                            Users = this.collection.ToList()
-                        });
+                    ThreadPool.QueueUserWorkItem(Process, client);
                 }
                 catch
                 {
                     client?.Close();
                 }
             }
+        }
+
+        private void Process(object state)
+        {
+            TcpClient client = (TcpClient) state;
+
+            if (!this.ValidateEndPoint(client))
+            {
+                client.Close();
+            }
+
+            this.activeServices.Add(client);
+
+            NetworkStream stream = client.GetStream();
+
+            this.formatter.Serialize(
+                stream,
+                new MasterNodeChanges()
+                {
+                    Users = this.collection.ToList()
+                });
         }
 
         private bool ValidateEndPoint(TcpClient client)

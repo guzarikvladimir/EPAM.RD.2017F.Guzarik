@@ -1,20 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Configuration;
 
 namespace CustomServices.Configuration
 {
     public class EndPointElement : ConfigurationElement
     {
-        [ConfigurationProperty("endPoint")]
-        public string EndPoint
+        [ConfigurationProperty("hostname")]
+        public string Hostname
         {
             get
             {
-                return this["endPoint"] as string;
+                return this["hostname"] as string;
+            }
+        }
+
+        [ConfigurationProperty("port")]
+        public string Port
+        {
+            get
+            {
+                return this["port"] as string;
             }
         }
     }

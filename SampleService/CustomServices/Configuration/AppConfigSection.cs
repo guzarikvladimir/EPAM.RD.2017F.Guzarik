@@ -49,6 +49,15 @@ namespace CustomServices.Configuration
             }
         }
 
+        [ConfigurationProperty("threadPool")]
+        public ThreadPoolElement ThreadPool
+        {
+            get
+            {
+                return this["threadPool"] as ThreadPoolElement;
+            }
+        }
+
         public static AppConfigSection GetConfigSection()
         {
             return ConfigurationManager.GetSection("MasterSection") as AppConfigSection;
